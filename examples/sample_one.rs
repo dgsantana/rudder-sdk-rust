@@ -3,7 +3,8 @@ use rudderanalytics::message::{
     Alias, Batch, BatchMessage, Group, Identify, Message, Page, Screen, Track,
 };
 use serde_json::json;
-fn main() {
+#[tokio::main]
+async fn main() {
     let rudder_analytics = RudderAnalytics::load(
         "YOUR_WRITE_KEY".to_string(),
         "YOUR_DATA_PLANE_URL".to_string(),
@@ -90,29 +91,36 @@ fn main() {
 
     rudder_analytics
         .send(&identify_msg)
+        .await
         .expect("Identify call failed to send data to Rudderstack");
 
     rudder_analytics
         .send(&track_msg)
+        .await
         .expect("Track call failed to send data to Rudderstack");
 
     rudder_analytics
         .send(&page_msg)
+        .await
         .expect("Page call failed to send data to Rudderstack");
 
     rudder_analytics
         .send(&group_msg)
+        .await
         .expect("Group call failed to send data to Rudderstack");
 
     rudder_analytics
         .send(&screen_msg)
+        .await
         .expect("Screen call failed to send data to Rudderstack");
 
     rudder_analytics
         .send(&alias_msg)
+        .await
         .expect("Alias call failed to send data to Rudderstack");
 
     rudder_analytics
         .send(&batch_msg)
+        .await
         .expect("Batch call failed to send data to Rudderstack");
 }

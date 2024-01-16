@@ -1,12 +1,14 @@
 use std::error::Error;
 use clap::{App, AppSettings, Arg, SubCommand};
-use log::debug;
 use rudderanalytics::client::RudderAnalytics;
 use rudderanalytics::message::Message;
 use std::io;
 
-fn main() -> Result<(), Box<dyn Error>> {
-    env_logger::init();
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
+
+    tracing_subscriber::fmt::init();
+
     let matches = App::new("Rudderanalytics")
         .version("1.1.3")
         .about("Sends analytics events to RudderStack")
@@ -64,5 +66,5 @@ fn main() -> Result<(), Box<dyn Error>> {
         None => panic!("subcommand is required"),
     };
 
-    Ok(rudderanalytics.send(&message)?)
+    Ok(rudderanalytics.send(&message).await?)
 }
